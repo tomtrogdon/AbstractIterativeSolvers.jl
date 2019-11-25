@@ -4,7 +4,7 @@ using LinearAlgebra
 
 export GMRES
 
-function GMRES(A,b,inner,tol,n)
+function GMRES(A,b,inner,tol,n,cond)
     nom = a -> sqrt(abs(inner(a,a)))
     H = zeros(Complex{Float64},n+1,n)
     bnorm = nom(b)
@@ -12,18 +12,21 @@ function GMRES(A,b,inner,tol,n)
     Q = [(1.0/bnorm)*b]
     for i = 1:n
        #tic()
-       v = A(Q[i])
-       #print("Operator application: ")
+       println("Operator application: ")
+       @time v = A(Q[i])
        #toc()
        #tic()
+       println("Inner products: ")
        for j = 1:i
            #tic()
-           H[j,i] = inner(Q[j],v)
+           @time H[j,i] = inner(Q[j],v)
            #toc()
-           v = v - H[j,i]*Q[j]
+           v = cond(v - H[j,i]*Q[j])
        end
-       H[i+1,i] = nom(v)
-       Q = vcat(Q,[copy((1.0/H[i+1,i])*v)])
+       v = cond(v)
+       println("Assembling Q:")
+       @time H[i+1,i] = nom(v)
+       @time Q = vcat(Q,[copy((1.0/H[i+1,i])*v)])
        #print("Arnoldi: ")
        #toc()
        #return v
