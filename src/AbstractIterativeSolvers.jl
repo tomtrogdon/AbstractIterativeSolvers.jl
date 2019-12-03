@@ -51,6 +51,7 @@ function GMRES(A,b,inner,tol,n,cond)
 end
 
 function GMRES_verbose(A,b,inner,tol,n,cond)
+
     nom = a -> sqrt(abs(inner(a,a)))
     H = zeros(Complex{Float64},n+1,n)
     bnorm = nom(b)
@@ -81,7 +82,8 @@ function GMRES_verbose(A,b,inner,tol,n,cond)
            # TODO: Implement Givens rotations
            rhs = zeros(Float64,i+1)
            rhs[1] = bnorm
-           x = H[1:i+1,1:i]\rhs
+           println("Solve least squares")
+           @time x = H[1:i+1,1:i]\rhs
            res = norm(H[1:i+1,1:i]*x-rhs)
            print("iteration = ")
            print(i)
