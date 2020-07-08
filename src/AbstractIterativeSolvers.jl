@@ -52,7 +52,7 @@ function GMRES(A,b,inner,tol,n,cond)
     return [Q,x,conv_history]
 end
 
-function GMRES_hi(A,b,inner,tol,n,cond,prec)
+function GMRES_hi(A,b,inner,tol,n,cond,prec,flag = false)
     nom = a -> sqrt(abs(inner(a,a)))
     H = zeros(Complex{BigFloat},n+1,n)
     bnorm = nom(b)
@@ -87,10 +87,12 @@ function GMRES_hi(A,b,inner,tol,n,cond,prec)
            x = H[1:i+1,1:i]\rhs
            res = norm(H[1:i+1,1:i]*x-rhs)
            conv_history = vcat(conv_history,[i,res])
-           print("iteration = ")
-           print(i)
-           print(", residual = ")
-           println(res)
+           if flag
+               print("iteration = ")
+               print(i)
+               print(", residual = ")
+               println(res)
+           end
            if res < tol
                return  [Q,x,conv_history]
            end
