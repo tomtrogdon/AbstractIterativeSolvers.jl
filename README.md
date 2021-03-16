@@ -1,6 +1,6 @@
 # AbstractIterativeSolvers
 
-Implementations of algorithms from numerical linear algebra based on an abstract inner product.  An application is given in the `AKNS.jl` package.
+Implementations of algorithms from numerical linear algebra based on an abstract inner product.  An application is given in the `AKNS.jl` package using `ApproxFun.jl` and `ApproxFunRational.jl`
 
 [![Build Status](https://travis-ci.com/tomtrogdon/AbstractIterativeSolvers.jl.svg?branch=master)](https://travis-ci.com/tomtrogdon/AbstractIterativeSolvers.jl)
 [![Codecov](https://codecov.io/gh/tomtrogdon/AbstractIterativeSolvers.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/tomtrogdon/AbstractIterativeSolvers.jl)
